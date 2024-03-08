@@ -1,0 +1,7 @@
+beautifulsoup4==4.8.0
+Flask==3.0.2
+Flask_BasicAuth==0.2.0
+qrcode==7.4.2
+Requests==2.31.0
+schedule==1.2.0
+gunicorn

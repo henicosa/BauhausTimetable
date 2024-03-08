@@ -1,0 +1,58 @@
+{% for event in events %}
+
+			<article itemscope itemtype="https://schema.org/Event">
+				<header>
+					<div class="ev_date"><time datetime="{{ event.time.start.dateformat1 }}" itemprop="startDate"
+							content="{{ event.time.start.dateformat2 }}">{{ event.time.start.dateformat_readable }}</time> – <time datetime="{{ event.time.end.dateformat1 }}"
+							itemprop="endDate" content="{{ event.time.end.dateformat2 }}">{{ event.time.end.dateformat_readable }}</time></div>
+					<div class="ev_room" itemprop="location" itemscope itemtype="https://schema.org/Place"
+						data-name="room">
+						<a href="{{ event.location.link }}"
+							target="_blank" title="zum Raum-Belegungsplan {{ event.location.room.full_name }}">{{ event.location.room.abbr_name.html | safe }}</a>
+					</div>
+				</header>
+				<section>
+					{% for actor in event.people %}
+					<div class="actor" itemprop="actor" itemscope itemtype="https://schema.org/Person"><span
+							data-name="host" itemprop="name">
+							<a href="{{ actor.link }}"
+								target="_blank" title="zur Person {{  actor.name }}">
+								{{  actor.name }}
+							</a>
+						</span></div>
+					{% endfor %}
+					{% if 'multilingual' in event.title %}
+					<h2 itemprop="name"><span data-name="name_de">
+						<a href="{{ event.link }}"
+							target="_blank" title="zum Modul {{ event.title.multilingual }}">
+						{{ event.title.multilingual }}	
+						</a>
+					</span></h2>
+					{% else %}
+					<h2 itemprop="name">
+						<span data-name="name_de"> 
+							<a href="{{ event.link }}"
+								target="_blank" title="zum Modul {{ event.title.german }}">
+								{{ event.title.german }} 
+							</a>
+						</span><br>
+						<span data-name="name_en" lang="en"> 
+							<a href="{{ event.link }}"
+								target="_blank" title="to course {{ event.title.english }}">
+								{{ event.title.english }} 
+							</a>
+						</span>
+					</h2>
+					{% endif %}
+					
+				</section>
+				<footer>
+					<span itemscope itemprop="identifier" itemtype="https://schema.org/PropertyValue">
+						<span itemprop="propertyID">Nr</span>: <span data-name="course_id"
+							itemprop="value">{{ event.course_id }}</span>
+					</span>
+					– <span data-name="event_type">{{ event.event_type }}</span>
+				</footer>
+			</article>
+
+{% endfor %}
