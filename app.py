@@ -90,7 +90,7 @@ def web():
 
     events = crawler.get_events(room_ids, current_time.date())
 
-    return render_template(template_path, building=building, events=events)
+    return render_template(template_path, building=building, events=events, last_update=datetime.datetime.now().strftime("%d.%m.%Y %H:%M"))
 
 
 '''
