@@ -10,7 +10,7 @@ Bauhaus Timetable connects the Bison course catalogue of the Bauhaus-Universitä
 - [X] Logs only accessible from machine
 - [X] QR code to redirect to a mobile and accesible page
 - [ ] display the next 3 days
-- [ ] sort events by time
+- [X] sort events by time, display only events that end after the current time
 - [ ] extract correct course type
 - [ ] add data protection notice, impress and barrier free notice
 

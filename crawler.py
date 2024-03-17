@@ -82,6 +82,7 @@ def format_datetime(dt, time_format="%Y-%m-%d %H:%M"):
     return {
         "dateformat1": dt.strftime(time_format),
         "dateformat2": dt.isoformat(),
+        "unixtime": int(dt.timestamp()),
         "dateformat_readable": dt.strftime("%a. %d.%m.%Y, %H:%M")
     }
 
@@ -286,6 +287,20 @@ def get_events(room_ids, day_of_interest):
         
 
         print("Processed Raum " + room_id)
+
+    # if current_date equals day_of_interest remove all events that end before the current time
+    if day_of_interest == datetime.now().date():
+
+        # get current_time
+        current_time = datetime.now()
+        # override current_time for testing with 2024-04-10 12:00
+        # current_time = datetime(2024, 4, 10, 13, 0)
+
+        # remove all events that end before the current time using unixtime
+        events = [event for event in events if event["time"]["end"]["unixtime"] > current_time.timestamp()]
+        
+    # sort events by time
+    events.sort(key=lambda x: x["time"]["start"]["unixtime"])
 
     return events
 
