@@ -20,7 +20,7 @@ Bauhaus Timetable connects the Bison course catalogue of the Bauhaus-Universitä
 ### Installation
 
 1. Clone the repository: `git clone https://github.com/henicosa/BauhausTimetable.git`
-2. Install and run docker container: `./install.sh`
+2. Install and run docker container: `docker-compose up`
 
 ### Usage
 
