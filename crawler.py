@@ -56,6 +56,7 @@ def get_course_details(event):
     event["title"] = title
     
     event["course_id"] = format_string(soup.find('td', class_='mod_n_basic', headers='basic_3').get_text())
+    event["event_type"] = format_string(soup.find('td', class_='mod_n_basic', headers='basic_1').get_text())
 
     event["people"] = extract_persons_info(soup)
 
@@ -213,12 +214,13 @@ def return_events(html_code, day):
 
         event["time"] = time
 
-        
+        # unreliable event type extraction
+        """
         if len(event_table) > 2:
             event["event_type"] = format_string(event_table[2].get_text())
         else:
             event["event_type"] = None
-
+        """
         if len(event_table) > 3:
             for i in range(3, len(event_table)):
                 current_info = event_table[i]
