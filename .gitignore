@@ -1,4 +1,5 @@
 secrets.json
 __pycache__/
-cache/
+cache/*.json
+cache/rooms/*.json
 *.log
