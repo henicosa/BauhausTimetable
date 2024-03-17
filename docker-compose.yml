@@ -4,6 +4,7 @@ services:
     image: eink_connector:tag
     build: .
     container_name: eink_connector
+    restart: unless-stopped
     ports:
       - "5000:8000"
     volumes:
