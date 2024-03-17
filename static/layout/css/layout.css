@@ -320,6 +320,7 @@ body.eink #footer div.sp.qr .qrcode {
   max-width: 4em;
   float: right;
   margin-left: 3%;
+  max-height: 4em;
 }
 body.eink #footer div.sp span:lang(en) {
   font-weight: 300;

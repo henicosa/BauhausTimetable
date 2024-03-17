@@ -7,8 +7,8 @@ Bauhaus Timetable connects the Bison course catalogue of the Bauhaus-Universitä
 ## Features
 
 - [X] **Bison Connection**: Use a crawler to ectract all important information from the Bison website
-- [] Logs only accessible from machine
-- [ ] QR code styling
+- [X] Logs only accessible from machine
+- [X] QR code to redirect to a mobile and accesible page
 - [ ] display the next 3 days
 - [ ] sort events by time
 - [ ] extract correct course type
