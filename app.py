@@ -1,5 +1,4 @@
 from flask import Flask, Response, render_template, jsonify, request, abort
-from flask_basicauth import BasicAuth
 
 import schedule
 import time
@@ -17,14 +16,8 @@ def read_json(path):
 
 app = Flask(__name__)
 
-
-secrets = read_json("secrets/secrets.json")
 settings = read_json("application.json")
 
-app.config['BASIC_AUTH_USERNAME'] = secrets['username']
-app.config['BASIC_AUTH_PASSWORD'] = secrets['password']
-
-basic_auth = BasicAuth(app)
 
 program_status = "not running"
 
@@ -119,29 +112,11 @@ def page_unavailable_for_legal_reasons(error):
 def about():
     return render_template('appinfo.html', appinfo=settings)
 
-@app.route('/secret')
-@basic_auth.required
-def secret_page():
-    return "You have access to the secret page!"
 
 @app.route('/status')
 def status():
     global program_status
     return jsonify(status=program_status)
-
-@app.route('/logs')
-@basic_auth.required
-def logs():
-    log_messages = []
-    with open('app/log/application.log', 'r') as logfile:
-        for line in logfile:
-            try:
-                time, application, log_type, message = line.strip().split(' ', 3)
-                log_messages.append({'time': time, 'application': application, 'type': log_type, 'message': message})
-            except Exception as e:
-                print("Parse Error for log event:" + line)
-    log_messages = log_messages[::-1]  # Reverse the order of the messages to display the latest message first
-    return render_template('logs.html', log_messages=log_messages)
 
 
 @app.route('/activate', methods=['POST'])

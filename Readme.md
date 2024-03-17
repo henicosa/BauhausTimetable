@@ -7,6 +7,12 @@ Bauhaus Timetable connects the Bison course catalogue of the Bauhaus-Universitä
 ## Features
 
 - [X] **Bison Connection**: Use a crawler to ectract all important information from the Bison website
+- [] Logs only accessible from machine
+- [ ] QR code styling
+- [ ] display the next 3 days
+- [ ] sort events by time
+- [ ] extract correct course type
+- [ ] add data protection notice, impress and barrier free notice
 
 ### Requirements
 
@@ -38,7 +44,7 @@ http://127.0.0.1:8000/raum?room_ids=2882,2883,2881,2884&building_name=Marienstra
 
 ## Contribution Guidelines
 
-I welcome contributions from the community to improve and enhance Bauhaus Watch. If you would like to contribute, please follow these guidelines:
+I welcome contributions from the community to improve and enhance Bauhaus Timetable. If you would like to contribute, please follow these guidelines:
 
 1. Fork the repository and create your branch: `git checkout -b my-feature`
 2. Make changes and commit them: `git commit -m "Add feature"`
