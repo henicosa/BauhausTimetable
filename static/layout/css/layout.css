@@ -222,7 +222,7 @@ h3 {
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: nowrap;
-  margin-bottom: 1.5em;
+  margin-bottom: 2em;
 }
 #header .buw_logo {
   line-height: 0;
@@ -234,6 +234,11 @@ h3 {
 
 main {
   flex: auto;
+}
+main .note {
+  font-size: 0.75em;
+  line-height: 1.1em;
+  padding: 0.4em 0;
 }
 
 article {
@@ -300,9 +305,10 @@ body.eink #footer {
   flex-wrap: nowrap;
   align-items: flex-end;
   vertical-align: bottom;
+  padding-top: 2em;
 }
 body.eink #footer div.sp {
-  width: 32%;
+  /*width: 32%;*/
 }
 body.eink #footer div.sp.bison {
   font-weight: 400;
@@ -320,7 +326,11 @@ body.eink #footer div.sp.qr .qrcode {
   max-width: 4em;
   float: right;
   margin-left: 3%;
-  max-height: 4em;
+  aspect-ratio: 1/1;
+}
+body.eink #footer div.sp.qr .qrcode img, body.eink #footer div.sp.qr .qrcode svg {
+  max-width: 100%;
+  height: auto;
 }
 body.eink #footer div.sp span:lang(en) {
   font-weight: 300;
@@ -355,12 +365,19 @@ body:not(.eink) #footer .sp {
 
 @media only screen and (min-width: 50em) {
   main {
-    -moz-column-count: 2;
-    column-count: 2;
     -moz-column-gap: 2%;
     column-gap: 2%;
     -moz-column-rule: 0;
     column-rule: 0;
+  }
+  body.eink main {
+    height: calc(95.5vh - 6.8em);
+    -moz-column-width: 46.5vw;
+    column-width: 46.5vw;
+  }
+  body:not(.eink) main {
+    -moz-column-count: 2;
+    column-count: 2;
   }
   body:not(.eink) #footer {
     display: flex;
@@ -381,12 +398,19 @@ body:not(.eink) #footer .sp {
 }
 @media only screen and (min-width: 70em) {
   main {
-    -moz-column-count: 3;
-    column-count: 3;
     -moz-column-gap: 2%;
     column-gap: 2%;
     -moz-column-rule: 0;
     column-rule: 0;
+  }
+  body.eink main {
+    height: calc(95.5vh - 7.7em);
+    -moz-column-width: 31vw;
+    column-width: 31vw;
+  }
+  body:not(.eink) main {
+    -moz-column-count: 3;
+    column-count: 3;
   }
 }
 body.black {

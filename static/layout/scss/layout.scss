@@ -217,7 +217,7 @@ h3 {
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: nowrap;
-    margin-bottom: 1.5em;
+    margin-bottom: 2em;
     .buw_logo {
       line-height: 0;
       min-width: 20%;
@@ -228,6 +228,11 @@ h3 {
   }
 main {
   flex: auto;
+  .note {
+    font-size: 0.75em;
+    line-height: 1.1em;
+    padding: 0.4em 0;
+  }
 }
 article {
   overflow: hidden; /* Fix for firefox and IE 10-11  */
@@ -294,8 +299,9 @@ body.eink {
     flex-wrap: nowrap;
     align-items: flex-end;
     vertical-align: bottom;
+    padding-top: 2em;
     div.sp {
-      width: 32%;
+      /*width: 32%;*/
       &.bison {
         font-weight: 400;
       }
@@ -311,6 +317,11 @@ body.eink {
           max-width: 4em;
           float: right;
           margin-left: 3%;
+          aspect-ratio: 1 / 1;
+          img, svg {
+            max-width: 100%;
+            height: auto;
+          }
         }
       }
       span:lang(en) {
@@ -358,9 +369,6 @@ body:not(.eink) {
 }
 @media only screen and (min-width: 50em) {
   main {
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-    column-count: 2;
     -webkit-column-gap: 2%;
     -moz-column-gap: 2%;
     column-gap: 2%;
@@ -368,7 +376,18 @@ body:not(.eink) {
     -moz-column-rule: 0;
     column-rule: 0;
   }
+  body.eink main {
+    height: calc(95.5vh - 6.8em);
+    -webkit-column-width: calc((100vw - 3.5vw - 3.5vw) / 2);
+    -moz-column-width: calc((100vw - 3.5vw - 3.5vw) / 2);
+    column-width: calc((100vw - 3.5vw - 3.5vw) / 2);
+  }
   body:not(.eink) {
+    main {
+      -webkit-column-count: 2;
+      -moz-column-count: 2;
+      column-count: 2;
+    }
     #footer {
       display: flex;
       flex-direction: row;
@@ -391,15 +410,25 @@ body:not(.eink) {
 }
 @media only screen and (min-width: 70em) {
   main {
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
-    column-count: 3;
     -webkit-column-gap: 2%;
     -moz-column-gap: 2%;
     column-gap: 2%;
     -webkit-column-rule: 0;
     -moz-column-rule: 0;
     column-rule: 0;
+  }
+  body.eink main {
+    height: calc(95.5vh - 7.7em);
+    -webkit-column-width: calc((100vw - 3.5vw - 3.5vw) / 3);
+    -moz-column-width: calc((100vw - 3.5vw - 3.5vw) / 3);
+    column-width: calc((100vw - 3.5vw - 3.5vw) / 3);
+  }
+  body:not(.eink) {
+    main {
+      -webkit-column-count: 3;
+      -moz-column-count: 3;
+      column-count: 3;
+    }
   }
 }
 

@@ -10,6 +10,8 @@ url = "https://bison.uni-weimar.de/qisserver/rds?state=wplan&raum.rgid=[raumid]&
 
 days = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
 
+room_abbreviations = json.load(open("room_abbreviations.json"))
+
 def is_cashed(course_id):
     cache_path = "cache/" + course_id + ".json"
     return os.path.exists(cache_path)
@@ -79,12 +81,31 @@ def add_hours_to_day(current_date, time_to_add):
     combined_datetime = datetime.combine(current_date, datetime.strptime(time_to_add, "%H:%M").time())
     return combined_datetime
 
+def weekday_to_german(weekday):
+    translationtable = {
+        "Mon": "Mo.",
+        "Tue": "Di. / Tue.",
+        "Wed": "Mi. / Wed.",
+        "Thu": "Do. / Thu.",
+        "Fri" : "Fr.",
+        "Sat": "Sa.",
+        "Sun": "So. / Sun."
+    }
+
+    if weekday in translationtable:
+        return translationtable[weekday]
+    else:
+        return weekday
+    
+def get_full_datestring(dt):
+    return weekday_to_german(dt.strftime("%a")) + " " + dt.strftime("%d.%m.%Y, %H:%M")
+
 def format_datetime(dt, time_format="%Y-%m-%d %H:%M"):
     return {
         "dateformat1": dt.strftime(time_format),
         "dateformat2": dt.isoformat(),
         "unixtime": int(dt.timestamp()),
-        "dateformat_readable": dt.strftime("%a. %d.%m.%Y, %H:%M")
+        "dateformat_readable": get_full_datestring(dt)
     }
 
 def generate_timeformats(start_datetime, end_datetime):
@@ -98,7 +119,7 @@ def generate_timeformats(start_datetime, end_datetime):
         end["dateformat_readable"] = end_datetime.strftime("%H:%M Uhr")
     else:
         # Customize the format_readable for different days if needed
-        end["dateformat_readable"] = end_datetime.strftime("%a. %d.%m.%Y, %H:%M")
+        end["dateformat_readable"] = get_full_datestring(end_datetime)
 
     result = {
         "start": start,
@@ -149,11 +170,15 @@ def extract_persons_info(soup):
     return persons_list
 
 
-def return_events(html_code, day):
+def extract_events(html_code, day):
     soup = BeautifulSoup(html_code, 'html.parser')
 
     # Get weekday (0-6, where Monday is 0)
     weekday = day.weekday()
+
+    # get first day of the week
+    first_day_of_week = day - timedelta(days=weekday)
+
 
     # 
     # Process Location
@@ -166,8 +191,13 @@ def return_events(html_code, day):
     full_name = format_string(location_soup.get_text()).split(" - ")[1]
     room["full_name"] = full_name
     room["abbr_name"] = {}
-    abbr_name = full_name.replace("(Hörsaal ansteigend)", "")
-    abbr_name = abbr_name.replace("Hörsaal", "<abbr title='Hörsaal / Auditorium'>HS</abbr>")
+    #abbr_name = full_name.replace("(Hörsaal ansteigend)", "")
+    #abbr_name = abbr_name.replace("Hörsaal", "<abbr title='Hörsaal / Auditorium'>HS</abbr>")
+    
+    # TODO: make sure that the room_id is correct
+    room_id = location["link"].split("raum.rgid=")[1]
+
+    abbr_name = room_abbreviations[room_id]
     room["abbr_name"]["html"] = abbr_name
     location["room"] = room
 
@@ -188,18 +218,16 @@ def return_events(html_code, day):
         time_information = event_table[1].get_text().split(",")
         time_information = [info.strip() for info in time_information]
 
-        if days[weekday] not in time_information[0]:
-            continue
-
         # fetch additional course information
         event["link"] = event_table[0].find("a")["href"]
         event = get_course_details(event)
 
         time = {}
         time["day"] = time_information[0]
+        current_base_date = first_day_of_week + timedelta(days=days.index(time["day"]))
 
-        start_dt = add_hours_to_day(day, time_information[1].split(" - ")[0])
-        end_dt = add_hours_to_day(day, time_information[1].split(" - ")[1])
+        start_dt = add_hours_to_day(current_base_date, time_information[1].split(" - ")[0])
+        end_dt = add_hours_to_day(current_base_date, time_information[1].split(" - ")[1])
 
         formatted_time = generate_timeformats(start_dt, end_dt)
 
@@ -280,14 +308,16 @@ def get_events(room_ids, day_of_interest):
 
         
         if not used_cached_version:
-            events += return_events(html_code, day_of_interest)
+            events += extract_events(html_code, day_of_interest)
             # update only if time is relevant
             if abs(datetime.now() - add_hours_to_day(day_of_interest, "00:00")) < timedelta(days=2):
                 print("Updating room " + room_id)
                 json.dump({"last_time_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                            , "events": events}, open("cache/rooms/" + room_id + ".json", "w"), indent=4)
         
-
+        # convert date to unixtime timestamp at midnight
+        day_of_interest_timestamp = add_hours_to_day(day_of_interest, "00:00").timestamp()
+        events = [event for event in events if event["time"]["end"]["unixtime"] > day_of_interest_timestamp]
         print("Processed Raum " + room_id)
 
     # if current_date equals day_of_interest remove all events that end before the current time

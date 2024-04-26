@@ -4,3 +4,4 @@ qrcode==7.4.2
 Requests==2.31.0
 schedule==1.2.0
 gunicorn
+pytz

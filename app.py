@@ -2,9 +2,11 @@ from flask import Flask, Response, render_template, jsonify, request, abort
 
 import schedule
 import time
+
 import subprocess
 
 import datetime
+import pytz
 
 import crawler
 
@@ -85,12 +87,16 @@ def web():
     url = url.split("://")[1]
     url = url.split("/", 1)[1]
     url = production_domain + url
-    
-    building = {"name": building_name, "id": "2882", "qrcode" : generate_qr_svg(url)}
+    # generate_qr_svg(url)
+    building = {"name": building_name, "id": "2882", "qrcode" : ""}
 
     events = crawler.get_events(room_ids, current_time.date())
 
-    return render_template(template_path, building=building, events=events, last_update=datetime.datetime.now().strftime("%d.%m.%Y %H:%M"))
+    # get current time in berlin timezone
+    current_time = datetime.datetime.now()
+    current_time = current_time.astimezone(pytz.timezone('Europe/Berlin'))
+    current_time_str = current_time.strftime("%d.%m.%Y %H:%M")
+    return render_template(template_path, building=building, events=events, last_update=current_time_str)
 
 
 '''
