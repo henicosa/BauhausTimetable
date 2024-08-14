@@ -44,7 +44,7 @@ else:
 
 # Replace {{time}} with the current time
 current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-new_content = content.replace(current_time + " and was executed " + str(count) + " times") 
+new_content = content.replace("{{time}}", current_time + " and was executed " + str(count) + " times") 
 
 # Write the new content back to index.html
 with open(index_file, 'w') as file:
