@@ -1,0 +1,17 @@
+- group_name: Marienstraße 13
+  filename: index
+  rooms:
+    - id: 2881
+      abbreviation: HS C
+    - id: 2882
+      abbreviation: HS A
+    - id: 2883
+      abbreviation: HS B
+    - id: 2884
+      abbreviation: HS D
+
+- group_name: Audimax
+  filename: audimax
+  rooms:
+    - id: 3162
+      abbreviation: Audimax

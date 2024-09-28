@@ -2,8 +2,9 @@
     "application_name": "Bauhaus Timetable",
     "application_type": "Display",
     "application_type_short": "Display",
-    "application_introduction": "Bauhaus Timemtable is a web application to visualize the next events that take place in a seminar room.",
+    "application_introduction": "Bauhaus Timetable is a web application to visualize the next events that take place in a seminar room.",
     "application_repo_link": "https://github.com/henicosa",
-    "application_version": "1.0",
-    "production_domain": "https://eink.uni-weimar.de/"
+    "application_version": "1.1",
+    "production_domain": "https://eink.uni-weimar.de/",
+    "html_output_folder": "public"
 }

@@ -4,9 +4,24 @@ import json
 from pprint import pprint
 import os
 
+import logging
+
+# configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+def logg(level="info", msg=""):
+    if level == "info":
+        logger.info(msg)
+    elif level == "error":
+        logger.error(msg)
+    elif level == "warning":
+        logger.warning(msg)
+    print(level.upper() + ": " + msg)
+
 from datetime import datetime, timedelta, date
 
-url = "https://bison.uni-weimar.de/qisserver/rds?state=wplan&raum.rgid=[raumid]&week=[calendar_week]_[year]&act=Raum&pool=Raum&show=plan&P.vx=lang&fil=plu&P.subc=plan"
+url = "https://bison-connector.bauhaus.uni-weimar.de/qisserver/rds?state=wplan&raum.rgid=[raumid]&week=[calendar_week]_[year]&act=Raum&pool=Raum&show=plan&P.vx=lang&fil=plu&P.subc=plan"
 
 days = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
 
@@ -222,25 +237,31 @@ def extract_events(html_code, day):
         event["link"] = event_table[0].find("a")["href"]
         event = get_course_details(event)
 
-        time = {}
-        time["day"] = time_information[0]
-        current_base_date = first_day_of_week + timedelta(days=days.index(time["day"]))
+        
 
-        start_dt = add_hours_to_day(current_base_date, time_information[1].split(" - ")[0])
-        end_dt = add_hours_to_day(current_base_date, time_information[1].split(" - ")[1])
+        try:
+            time = {}
+            time["day"] = time_information[0]
+            current_base_date = first_day_of_week + timedelta(days=days.index(time["day"]))
 
-        formatted_time = generate_timeformats(start_dt, end_dt)
+            start_dt = add_hours_to_day(current_base_date, time_information[1].split(" - ")[0])
+            end_dt = add_hours_to_day(current_base_date, time_information[1].split(" - ")[1])
 
-        time["start"] = formatted_time["start"]
+            formatted_time = generate_timeformats(start_dt, end_dt)
 
-        time["end"] = formatted_time["end"]
+            time["start"] = formatted_time["start"]
 
-        if len(time_information) > 2:
-            time["repeat_type"] = time_information[2]
-        else:
-            time["repeat_type"] = None
+            time["end"] = formatted_time["end"]
 
-        event["time"] = time
+            if len(time_information) > 2:
+                time["repeat_type"] = time_information[2]
+            else:
+                time["repeat_type"] = None
+
+            event["time"] = time
+        except:
+            logg("error","Error processing time information " + str(time_information))
+            continue
 
         # unreliable event type extraction
         """
@@ -279,7 +300,7 @@ def extract_events(html_code, day):
     return events
 
 
-def get_events(room_ids, day_of_interest):
+def get_events(rooms, day_of_interest):
 
     # Get weekday (0-6, where Monday is 0)
     year = day_of_interest.year
@@ -292,7 +313,9 @@ def get_events(room_ids, day_of_interest):
 
     events = []
 
-    for room_id in room_ids:
+    for room in rooms:
+        room_id = room["id"]
+        
         # get html code
         url_to_fetch = url_template.replace("[raumid]", room_id)
         html_code = get_html(url_to_fetch)
@@ -311,7 +334,7 @@ def get_events(room_ids, day_of_interest):
             events += extract_events(html_code, day_of_interest)
             # update only if time is relevant
             if abs(datetime.now() - add_hours_to_day(day_of_interest, "00:00")) < timedelta(days=2):
-                print("Updating room " + room_id)
+                print("Cache room " + room_id + " for next query.")
                 json.dump({"last_time_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                            , "events": events}, open("cache/rooms/" + room_id + ".json", "w"), indent=4)
         
