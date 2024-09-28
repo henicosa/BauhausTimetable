@@ -5,7 +5,8 @@ pages:
   stage: deploy
   script:
     - echo "The site will be deployed to $CI_PAGES_URL"
-    - python edit.py 
+    - pip install -r "requirements.txt"
+    - python script.py > "public/logs.txt"
   artifacts:
     paths:
       - public
