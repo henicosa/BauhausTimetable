@@ -90,10 +90,12 @@ for group in read_groups():
         room["id"] = str(room["id"])
     htmls = generate_eink_html(rooms=group["rooms"], building_name=group["group_name"], current_time="2024-10-14")
 
+    output_folder = settings["html_output_folder"]
+
     # write the html to a file
-    with open(f"{settings["html_output_folder"]}/{filename}_eink.html", "w") as f:
+    with open(f"{output_folder}/{filename}_eink.html", "w") as f:
         f.write(htmls["eink"])
-    with open(f"{settings["html_output_folder"]}/{filename}_eink_dark.html", "w") as f:
+    with open(f"{output_folder}/{filename}_eink_dark.html", "w") as f:
         f.write(htmls["eink_dark"])
-    with open(f"{settings["html_output_folder"]}/{filename}.html", "w") as f:
+    with open(f"{output_folder}/{filename}.html", "w") as f:
         f.write(htmls["online"])
