@@ -88,7 +88,7 @@ for group in read_groups():
     filename = group["filename"]
     for room in group["rooms"]:
         room["id"] = str(room["id"])
-    htmls = generate_eink_html(rooms=group["rooms"], building_name=group["group_name"], current_time="2024-10-14")
+    htmls = generate_eink_html(rooms=group["rooms"], building_name=group["group_name"])
 
     output_folder = settings["html_output_folder"]
 
