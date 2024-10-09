@@ -21,8 +21,8 @@ def logg(level="info", msg=""):
 
 from datetime import datetime, timedelta, date
 
-# url = "http://bison-connector.bauhaus.uni-weimar.de/qisserver/rds?state=wplan&raum.rgid=[raumid]&week=[calendar_week]_[year]&act=Raum&pool=Raum&show=plan&P.vx=lang&fil=plu&P.subc=plan"
-url = "https://bison.uni-weimar.de/qisserver/rds?state=wplan&raum.rgid=[raumid]&week=[calendar_week]_[year]&act=Raum&pool=Raum&show=plan&P.vx=lang&fil=plu&P.subc=plan"
+url = "http://bison-connector.bauhaus.uni-weimar.de/qisserver/rds?state=wplan&raum.rgid=[raumid]&week=[calendar_week]_[year]&act=Raum&pool=Raum&show=plan&P.vx=lang&fil=plu&P.subc=plan"
+# url = "https://bison.uni-weimar.de/qisserver/rds?state=wplan&raum.rgid=[raumid]&week=[calendar_week]_[year]&act=Raum&pool=Raum&show=plan&P.vx=lang&fil=plu&P.subc=plan"
 
 days = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
 
