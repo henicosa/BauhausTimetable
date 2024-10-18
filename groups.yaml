@@ -15,3 +15,13 @@
   rooms:
     - id: 3162
       abbreviation: Audimax
+
+- group_name: Geschwister-Scholl-Straße 8
+  filename: hauptgebaeude
+  rooms: 
+    - id: 2928
+      abbreviation: Atelier
+    -id: 3431
+      abbreviation: Besprechungsraum 102
+    -id: 2925
+      abbreviation: Oberlichtsaal
