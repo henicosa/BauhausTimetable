@@ -21,7 +21,7 @@
   rooms: 
     - id: 2928
       abbreviation: Atelier
-    -id: 3431
+    - id: 3431
       abbreviation: Besprechungsraum 102
-    -id: 2925
+    - id: 2925
       abbreviation: Oberlichtsaal
