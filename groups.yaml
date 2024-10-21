@@ -1,5 +1,39 @@
+- group_name: Marienstraße 7b
+  filename: panel1
+  rooms:
+    - id: 2827
+      abbreviation: PC Pool Luna-blue
+    - id: 2828
+      abbreviation: PC Pool Luna-grey
+    - id: 2829
+      abbreviation: SDS 30
+    - id: 2844
+      abbreviation: B201
+    - id: 2845
+      abbreviation: B202
+    - id: 2846
+      abbreviation: B203
+    - id: 2847
+      abbreviation: B204
+    - id: 2848
+      abbreviation: B205
+    - id: 2849
+      abbreviation: B206
+    - id: 2838
+      abbreviation: B101
+    - id: 2839
+      abbreviation: B102
+    - id: 2840
+      abbreviation: B103
+    - id: 2837
+      abbreviation: B104
+    - id: 2851
+      abbreviation: B105
+    - id: 2843
+      abbreviation: B106
+
 - group_name: Marienstraße 13
-  filename: index
+  filename: panel2
   rooms:
     - id: 2881
       abbreviation: HS C
@@ -11,17 +45,65 @@
       abbreviation: HS D
 
 - group_name: Audimax
-  filename: audimax
+  filename: panel3
   rooms:
     - id: 3162
       abbreviation: Audimax
 
-- group_name: Geschwister-Scholl-Straße 8
-  filename: hauptgebaeude
-  rooms: 
-    - id: 2928
-      abbreviation: Atelier
-    - id: 3431
-      abbreviation: Besprechungsraum 102
-    - id: 2925
-      abbreviation: Oberlichtsaal
+- group_name: Zuse-Medienzentrum
+  filename: panel4
+  rooms:
+    - id: 3160
+      abbreviation: Kinoraum
+    - id: 3154
+      abbreviation: Pool 1
+    - id: 3155
+      abbreviation: Pool 2
+
+- group_name: Sprachenzentrum 2. Etage
+  filename: panel5
+  rooms:
+    - id: 3074
+      abbreviation: A201
+    - id: 3075
+      abbreviation: A202.1
+    - id: 3076
+      abbreviation: A202.2
+    - id: 3077
+      abbreviation: A203.1
+    - id: 3078
+      abbreviation: A203.2
+    - id: 3080
+      abbreviation: A205
+    - id: 3060
+      abbreviation: A210
+    - id: 3061
+      abbreviation: A212
+    - id: 3062
+      abbreviation: A213
+    - id: 3063
+      abbreviation: A214
+    - id: 2985
+      abbreviation: B108
+
+- group_name: Coudraystraße 13A Foyer
+  filename: panel6
+  rooms:
+    - id: 3106
+      abbreviation: Betonpool
+    - id: 3055
+      abbreviation: HS 2
+    - id: 3082
+      abbreviation: HS 3
+
+- group_name: Bauhausstraße 11  
+  filename: panel7
+  rooms:
+    - id: 3217
+      abbreviation: Seminarraum L
+    - id: 3218
+      abbreviation: Seminarraum H
+    - id: 3440
+      abbreviation: Seminarraum A
+    - id: 3205
+      abbreviation: Pool G
