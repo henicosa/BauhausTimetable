@@ -60,7 +60,7 @@
     - id: 3155
       abbreviation: Pool 2
 
-- group_name: Sprachenzentrum 2. Etage
+- group_name: Sprachenzentrum
   filename: panel5
   rooms:
     - id: 3074
