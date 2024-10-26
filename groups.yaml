@@ -35,7 +35,7 @@
 - group_name: Geschwister-Scholl-Straße 8
   filename: panel2
   rooms:
-  - id: 2928
+    - id: 2928
       abbreviation: Atelier 207
     - id: 3431
       abbreviation: Besprechungsraum 102
