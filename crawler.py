@@ -103,7 +103,7 @@ def weekday_to_german(weekday):
         "Tue": "Di.",
         "Wed": "Mi.",
         "Thu": "Do.",
-        "Fri" : "Fr.",
+        "Fri": "Fr.",
         "Sat": "Sa.",
         "Sun": "So."
     }
