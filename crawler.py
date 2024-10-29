@@ -100,12 +100,12 @@ def add_hours_to_day(current_date, time_to_add):
 def weekday_to_german(weekday):
     translationtable = {
         "Mon": "Mo.",
-        "Tue": "Di. / Tue.",
-        "Wed": "Mi. / Wed.",
-        "Thu": "Do. / Thu.",
+        "Tue": "Di.",
+        "Wed": "Mi.",
+        "Thu": "Do.",
         "Fri" : "Fr.",
         "Sat": "Sa.",
-        "Sun": "So. / Sun."
+        "Sun": "So."
     }
 
     if weekday in translationtable:
