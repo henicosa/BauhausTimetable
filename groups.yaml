@@ -1,3 +1,8 @@
+- group_name: Index
+  filename: index
+  rooms:
+    - id: 2827
+      abbreviation: PC Pool Luna-blue
 - group_name: Marienstraße 7b
   filename: panel1
   rooms:
