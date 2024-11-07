@@ -3,6 +3,7 @@
   rooms:
     - id: 2827
       abbreviation: PC Pool Luna-blue
+
 - group_name: Marienstraße 7b
   filename: panel1
   rooms:
@@ -37,23 +38,15 @@
     - id: 2843
       abbreviation: B106
 
-- group_name: Geschwister-Scholl-Straße 8
+- group_name: Coudraystraße 11C
   filename: panel2
   rooms:
-    - id: 2928
-      abbreviation: Atelier 207
-    - id: 3431
-      abbreviation: Besprechungsraum 102
-    - id: 2925
-      abbreviation: Oberlichtsaal
-    - id: 2926
-      abbreviation: Computerpool
-    - id: 2939
-      abbreviation: Repräsentationsraum 209
-    - id: 2933
-      abbreviation: Seminarraum 102
-    - id: 2937
-      abbreviation: Seminarraum 105      
+    - id: 3049
+      abbreviation: Orionpool
+    - id: 3050
+      abbreviation: 202
+    - id: 3054
+      abbreviation: HS 2
 
 - group_name: Maurice-Halbwachs-Auditorium
   filename: panel3
