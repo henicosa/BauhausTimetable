@@ -5,7 +5,7 @@
       abbreviation: PC Pool Luna-blue
 
 - group_name: Marienstraße 7b
-  filename: panel1
+  filename: M7B
   rooms:
     - id: 2827
       abbreviation: PC Pool Luna-blue
@@ -39,7 +39,7 @@
       abbreviation: B106
 
 - group_name: Coudraystraße 11C
-  filename: panel2
+  filename: C11C
   rooms:
     - id: 3049
       abbreviation: Orionpool
@@ -49,13 +49,13 @@
       abbreviation: HS 2
 
 - group_name: Maurice-Halbwachs-Auditorium
-  filename: panel3
+  filename: Audimax
   rooms:
     - id: 3162
       abbreviation: Audimax
 
 - group_name: Zuse-Medienzentrum
-  filename: panel4
+  filename: Zuse
   rooms:
     - id: 3160
       abbreviation: Kinoraum
@@ -65,7 +65,7 @@
       abbreviation: Pool 2
 
 - group_name: Sprachenzentrum
-  filename: panel5
+  filename: Sprachen
   rooms:
     - id: 3074
       abbreviation: A201
@@ -91,7 +91,7 @@
       abbreviation: B108
 
 - group_name: Coudraystraße 13A Foyer
-  filename: panel6
+  filename: C13A
   rooms:
     - id: 3106
       abbreviation: Betonpool
@@ -101,7 +101,7 @@
       abbreviation: HS 3
 
 - group_name: Bauhausstraße 11  
-  filename: panel7
+  filename: B11
   rooms:
     - id: 3217
       abbreviation: Seminarraum L
