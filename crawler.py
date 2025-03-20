@@ -33,16 +33,16 @@ def is_cashed(course_id):
     return os.path.exists(cache_path)
 
 
-def get_html(url):
+def get_html(session, url):
     print("Fetching " + url)
-    return requests.get(url).text
+    return session.get(url).text
 
 
 def format_string(string):
     return string.replace("\t", "").replace("\n", "").replace(",", "").strip()
 
 
-def get_course_details(event):
+def get_course_details(session, event):
     link = event["link"]
     
     try:
@@ -58,10 +58,10 @@ def get_course_details(event):
     if is_cashed(course_id):
         return json.load(open("cache/" + course_id + ".json"))
 
-    html_code = get_html(link)
+    html_code = get_html(session, link)
     soup = BeautifulSoup(html_code, 'html.parser')
-    name_de = format_string(soup.find("h1").get_text().replace("- Einzelansicht", ""))
-    name_en = get_english_event_name(event["link"])
+    name_de = format_string(soup.find("h1").get_text().replace("- Einzelansicht", "").replace("- Single View", ""))
+    name_en = get_english_event_name(session, event["link"])
 
     title = {}
 
@@ -84,9 +84,9 @@ def get_course_details(event):
     return event
 
 
-def get_english_event_name(link):
+def get_english_event_name(session, link):
     link += "&language=en"
-    html_code = get_html(link)
+    html_code = get_html(session, link)
     soup = BeautifulSoup(html_code, 'html.parser')
     name = soup.find("h1").get_text().replace("- Single View", "")
     return format_string(name)
@@ -186,7 +186,7 @@ def extract_persons_info(soup):
     return persons_list
 
 
-def extract_events(html_code, day):
+def extract_events(session, html_code, day):
     soup = BeautifulSoup(html_code, 'html.parser')
 
     # Get weekday (0-6, where Monday is 0)
@@ -236,7 +236,7 @@ def extract_events(html_code, day):
 
         # fetch additional course information
         event["link"] = event_table[0].find("a")["href"]
-        event = get_course_details(event)
+        event = get_course_details(session, event)
 
         
 
@@ -260,9 +260,12 @@ def extract_events(html_code, day):
                 time["repeat_type"] = None
 
             event["time"] = time
-        except:
+        except Exception as e:
             logg("error","Error processing time information " + str(time_information))
+            logg("error", str(e))
             continue
+
+        print("Processing event " + str(event["title"]) + " at " + time["start"]["dateformat_readable"])
 
         # unreliable event type extraction
         """
@@ -298,12 +301,35 @@ def extract_events(html_code, day):
 
         events.append(event)
 
+    print("Returning " + str(len(events)) + " events")
     return events
+
+
+# Fix for "Bison switches to the next semester before the end of the current semester"
+# Reported by Faculty Media on March, the 22nd 2025
+def select_correct_semester(session, day_of_interest):
+    year = day_of_interest.year
+
+    # if before 1. April, use last year
+    if day_of_interest.month < 4:
+        year -= 1
+        semester = "2"
+    elif day_of_interest.month < 10:
+        semester = "1"
+    else: 
+        semester = "2"
+
+    semesterstring = str(year) + semester
+
+    print("Selecting semester " + semesterstring)
+
+    session.get("https://bison-connector.bauhaus.uni-weimar.de/qisserver/rds?state=user&type=0&k_semester.semid=" + semesterstring + "&idcol=k_semester.semid&idval=20242&purge=n&getglobal=semester")
+
+    return session
 
 
 def get_events(rooms, day_of_interest):
 
-    # Get weekday (0-6, where Monday is 0)
     year = day_of_interest.year
 
     # Get calendar week
@@ -312,6 +338,9 @@ def get_events(rooms, day_of_interest):
     url_template = url.replace("[year]", str(year))
     url_template = url_template.replace("[calendar_week]", str(calendar_week))
 
+    session = requests.Session()
+    session = select_correct_semester(session, day_of_interest)
+
     events = []
 
     for room in rooms:
@@ -319,7 +348,7 @@ def get_events(rooms, day_of_interest):
         
         # get html code
         url_to_fetch = url_template.replace("[raumid]", room_id)
-        html_code = get_html(url_to_fetch)
+        html_code = get_html(session, url_to_fetch)
 
         # check if room_id is cached:
         used_cached_version = False
@@ -332,7 +361,7 @@ def get_events(rooms, day_of_interest):
 
         
         if not used_cached_version:
-            events += extract_events(html_code, day_of_interest)
+            events += extract_events(session, html_code, day_of_interest)
             # update only if time is relevant
             if abs(datetime.now() - add_hours_to_day(day_of_interest, "00:00")) < timedelta(days=2):
                 print("Cache room " + room_id + " for next query.")

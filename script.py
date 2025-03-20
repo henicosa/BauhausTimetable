@@ -52,6 +52,7 @@ def generate_eink_html(rooms=[],
     building = {"name": building_name, "id": "2882", "qrcode" : ""}
 
     events = crawler.get_events(rooms, current_time.date())
+    print("Found " + str(len(events)) + " events")
 
     # get current time in berlin timezone
     current_time = datetime.datetime.now()
@@ -86,6 +87,7 @@ def read_groups():
 # go through all groups and generate the html files in the output folder
 for group in read_groups():
     filename = group["filename"]
+    print("\nGenerating html for group: " + group["group_name"])
     for room in group["rooms"]:
         room["id"] = str(room["id"])
     htmls = generate_eink_html(rooms=group["rooms"], building_name=group["group_name"])

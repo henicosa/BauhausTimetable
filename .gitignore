@@ -4,3 +4,4 @@ cache/*.json
 cache/rooms/*.json
 *.log
 venv
+public/*.html
