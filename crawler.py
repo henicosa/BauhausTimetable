@@ -21,7 +21,7 @@ def logg(level="info", msg=""):
 
 from datetime import datetime, timedelta, date
 
-url = "http://bison-connector.bauhaus.uni-weimar.de/qisserver/rds?state=wplan&raum.rgid=[raumid]&week=[calendar_week]_[year]&act=Raum&pool=Raum&show=plan&P.vx=lang&fil=plu&P.subc=plan"
+url = "http://bison-connector.bauhaus.uni-weimar.de/qisserver/rds?state=wplan&raum.rgid=[raumid]&week=[calendar_week]_[year]&act=Raum&pool=Raum&show=plan&P.vx=lang&fil=plu&P.subc=plan&language=de"
 # url = "https://bison.uni-weimar.de/qisserver/rds?state=wplan&raum.rgid=[raumid]&week=[calendar_week]_[year]&act=Raum&pool=Raum&show=plan&P.vx=lang&fil=plu&P.subc=plan"
 
 days = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
@@ -43,7 +43,11 @@ def format_string(string):
 
 
 def get_course_details(session, event):
-    link = event["link"]
+
+    if "&language=de" not in event["link"]:
+        link = event["link"] + "&language=de"
+    else:
+        link = event["link"]
     
     try:
         course_id = link.split("publishid=")[1]
@@ -60,8 +64,8 @@ def get_course_details(session, event):
 
     html_code = get_html(session, link)
     soup = BeautifulSoup(html_code, 'html.parser')
-    name_de = format_string(soup.find("h1").get_text().replace("- Einzelansicht", "").replace("- Single View", ""))
-    name_en = get_english_event_name(session, event["link"])
+    name_de = format_string(soup.find("h1").get_text().replace("- Einzelansicht", ""))
+    name_en = get_english_event_name(session, link)
 
     title = {}
 
@@ -85,7 +89,7 @@ def get_course_details(session, event):
 
 
 def get_english_event_name(session, link):
-    link += "&language=en"
+    link = link.replace("&language=de", "&language=en")
     html_code = get_html(session, link)
     soup = BeautifulSoup(html_code, 'html.parser')
     name = soup.find("h1").get_text().replace("- Single View", "")
