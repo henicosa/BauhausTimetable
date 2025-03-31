@@ -327,7 +327,7 @@ def select_correct_semester(session, day_of_interest):
 
     print("Selecting semester " + semesterstring)
 
-    session.get("https://bison-connector.bauhaus.uni-weimar.de/qisserver/rds?state=user&type=0&k_semester.semid=" + semesterstring + "&idcol=k_semester.semid&idval=20242&purge=n&getglobal=semester")
+    session.get("https://bison-connector.bauhaus.uni-weimar.de/qisserver/rds?state=user&type=0&k_semester.semid=" + semesterstring + "&idcol=k_semester.semid&idval=" + semesterstring + "&purge=n&getglobal=semester")
 
     return session
 
