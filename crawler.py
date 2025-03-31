@@ -312,6 +312,16 @@ def extract_events(session, html_code, day):
 # Fix for "Bison switches to the next semester before the end of the current semester"
 # Reported by Faculty Media on March, the 22nd 2025
 def select_correct_semester(session, day_of_interest):
+    semesterstring = get_semester_from_date(day_of_interest)
+
+    print("Selecting semester " + semesterstring)
+
+    session.get("https://bison-connector.bauhaus.uni-weimar.de/qisserver/rds?state=user&type=0&k_semester.semid=" + semesterstring + "&idcol=k_semester.semid&idval=" + semesterstring + "&purge=n&getglobal=semester")
+
+    return session
+
+
+def get_semester_from_date(day_of_interest):
     year = day_of_interest.year
 
     # if before 1. April, use last year
@@ -324,15 +334,31 @@ def select_correct_semester(session, day_of_interest):
         semester = "2"
 
     semesterstring = str(year) + semester
-
-    print("Selecting semester " + semesterstring)
-
-    session.get("https://bison-connector.bauhaus.uni-weimar.de/qisserver/rds?state=user&type=0&k_semester.semid=" + semesterstring + "&idcol=k_semester.semid&idval=" + semesterstring + "&purge=n&getglobal=semester")
-
-    return session
+    return semesterstring
 
 
 def get_events(rooms, day_of_interest):
+
+    # check if another date in the week is in a new semester
+    # generate a list of all remaining dates in the week
+    dates = [ day_of_interest + timedelta(days=i) for i in range(7 - day_of_interest.weekday()) ]
+
+    # cget a unique list of all semester strings
+    semesters = [get_semester_from_date(date) for date in dates]
+    semesters = list(set(semesters))
+
+    events = []
+
+    for semester in semesters:
+        session = requests.Session()
+        print("Looking up semester", semester)
+        session.get("https://bison-connector.bauhaus.uni-weimar.de/qisserver/rds?state=user&type=0&k_semester.semid=" + semester + "&idcol=k_semester.semid&idval=" + semester + "&purge=n&getglobal=semester")
+        events += get_events_from_session(rooms, day_of_interest, session)
+        session.close()
+    
+    return events
+
+def get_events_from_session(rooms, day_of_interest, session):
 
     year = day_of_interest.year
 
@@ -341,9 +367,6 @@ def get_events(rooms, day_of_interest):
 
     url_template = url.replace("[year]", str(year))
     url_template = url_template.replace("[calendar_week]", str(calendar_week))
-
-    session = requests.Session()
-    session = select_correct_semester(session, day_of_interest)
 
     events = []
 
