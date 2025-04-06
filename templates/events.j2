@@ -47,11 +47,14 @@
 					
 				</section>
 				<footer>
+					{% if event.course_id %}
 					<span itemscope itemprop="identifier" itemtype="https://schema.org/PropertyValue">
 						<span itemprop="propertyID">Nr</span>: <span data-name="course_id"
 							itemprop="value">{{ event.course_id }}</span>
 					</span>
-					– <span data-name="event_type">{{ event.event_type }}</span>
+					– {% endif %}
+					
+					<span data-name="event_type">{{ event.event_type }}</span>
 				</footer>
 			</article>
 

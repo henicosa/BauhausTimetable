@@ -226,6 +226,11 @@ def extract_events(session, html_code, day):
     timetable = soup.find_all('table')[4]
     # get all td with class plan2
     event_tables = timetable.find_all('td', class_='plan2')
+
+    # event tables with multiple events
+    # select first table
+    event_tables += [table.find("table") for table in  timetable.find_all('td', class_='plan22')]
+    
     event_tables = [event_table.find_all("td") for event_table in event_tables]
     events = []
 
