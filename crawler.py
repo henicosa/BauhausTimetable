@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 from pprint import pprint
 import os
+import pytz
 
 import logging
 
@@ -409,7 +410,7 @@ def get_events_from_session(rooms, day_of_interest, session):
     if day_of_interest == datetime.now().date():
 
         # get current_time
-        current_time = datetime.now()
+        current_time = datetime.now().astimezone(pytz.timezone('Europe/Berlin'))
         # override current_time for testing with 2024-04-10 12:00
         # current_time = datetime(2024, 4, 10, 13, 0)
 
